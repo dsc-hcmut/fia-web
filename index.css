@@ -21,7 +21,6 @@ body{
     width: 70%;
     height: 50%;
     margin: 0 auto;
-    border:1px solid blue;
     animation: DropDownLogo 1.5s;
 }
 
@@ -35,18 +34,7 @@ body{
         opacity: 1;
     }
 }
-/* .intro-container .logo .logo-left{
-    position: relative;
-    height: 100%;
-    width: 25%;
-    border: 1px solid purple;
-}
-.intro-container .logo .logo-right {
-    position: relative;
-    height: 100%;
-    width: 25%;
-    border: 1px solid orange;
-} */
+
 .intro-container .logo .bar {
     width: 200px;
     height: 70px;
