@@ -74,7 +74,9 @@ function displayMessage(
    if(!messItem){
       let div = document.createElement('div');
       div.innerHTML=CHAT_TEMPLATE;
-      if(userId === this.auth.currentUser){
+      console.log(userId === this.auth.currentUser.uid);
+
+      if(userId === this.auth.currentUser.uid){
          div.firstChild.classList.add("chat-right");
       }
       messItem = div.firstChild;
@@ -106,7 +108,7 @@ function loadMessage(){
       let val = data.val();
       this.displayMessage(
          data.key,
-         val.useId,
+         val.userId,
          val.userName,
          val.message,
          val.photoUrl,
