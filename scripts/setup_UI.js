@@ -106,7 +106,7 @@ function loadMessage(){
       let val = data.val();
       this.displayMessage(
          data.key,
-         val.useId,
+         val.userId,
          val.userName,
          val.message,
          val.photoUrl,
