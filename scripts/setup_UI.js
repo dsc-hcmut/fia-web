@@ -54,7 +54,14 @@ import {
      }
  }
 
-/** Display message to container */
+/** Display message to container
+ * @param: messsgeId , userId , userName, message as Text, userAvatar, message as Img
+ * step1: find the message element by messageId
+ * step2: if not message exist with messageId then create message element
+ * step3: setup user information for message element
+ * step4: if message is text them set content as message as text, if message
+   is img set message content as img
+ */
 function displayMessage(
   key,
   userId,
@@ -63,85 +70,26 @@ function displayMessage(
   userAvaUrl = "/img/profile_placeholder.png",
   messAsImage
 ) {
-  let messageElement = document.getElementById(key);
-  if (!messageElement) {
-    let container = document.createElement("div");
-    container.innerHTML = CHAT_TEMPLATE;
-    if (userId === this.auth.currentUser.uid) {
-      container.firstChild.classList.add("chat-right");
-    }
-    messageElement = container.firstChild;
-    messageElement.setAttribute("id", key);
-    this.messageList.appendChild(messageElement);
-  }
-  //Set up profile
-  let name = messageElement.querySelector(".name");
-  let messageContent = messageElement.querySelector(".content");
-  let avatar = messageElement.querySelector(".circle");
-  name.innerHTML = userName;
-  avatar.setAttribute("src", userAvaUrl);
-  if (message) {
-    // let content = document.createElement("p");
-    // content.innerHTML = message ;
-    messageContent.innerHTML = `<p>
-         ${message}
-      </p>`;
-  } else if (messAsImage) {
-    let img = document.createElement("img");
-    img.addEventListener("load", () => {
-      this.messageArea.scrollTop = this.messageArea.scrollHeight;
-    });
-    this.setImageAsMessage(messAsImage, img);
-    messageContent.classList.remove("chat-text");
-    messageContent.innerHTML = "";
-    messageContent.append(img);
-  }
-  setTimeout(function () {
-    messageElement.classList.add("visible");
-  }, 1);
-  this.messageArea.scrollTop = this.messageArea.scrollHeight;
-  this.messageInputBox.focus();
+
 }
 
-/** Load messages to DOM */
+/** Load messages to DOM 
+ *  step1: make sure romve all listeners on message
+ *  step2: get message from db on event chanaged and add
+*/
 function loadMessage(){
-      //this.messagesRef = this.db.ref("messages");
-      // Make sure we remove all previous listeners.
-      this.messagesRef.off();
-
-      // Loads the last 20 messages and listen for new ones.
-      var setMessage =  (data) => {
-        var val = data.val();
-        // console.log(data.key)
-        this.displayMessage(
-          data.key,
-          val.userId,
-          val.userName,
-          val.message,
-          val.photoUrl,
-          val.imageUrl
-        );
-      };
-      this.messagesRef.limitToLast(20).on("child_added", setMessage);
-      this.messagesRef.limitToLast(20).on("child_changed", setMessage);
+   
 }
 
 /**Set image as message in message list
  * @param: imageUri, message element
+ * step1: check imgURI is URI or not
+ * step2: if imgURI is URI then create ref form URI then
+ * get download URL and set URL to src of img element
+ * step3: if not URI then set src of imgElement as received URI
  */
 function setImageAsMessage (imgURI, imgElement){
-   if(imgURI.startsWith("gs://")){
-      imgElement.src = LOADING_IMAGE;
-         this.storage
-           .refFromURL(imgURI)
-           .getDownloadURL()
-           .then((url) => {
-             console.log(url);
-             imgElement.src = url;
-           });
-   }else{
-      imgElement.src = imgURI;
-   }
+   
 }
 
 export {

@@ -3,98 +3,58 @@ import { setNavbar, setContent, loadMessage } from "./setup_UI.js";
 
 /** Sign up new account 
  * @param: window event
+ * step1: get input of email and password
+ * step2: createUserWithEmailAnhPassword to create new user
+ * if succcess close sign up form and reset input field
 */
 
 function signUp (event){
-  event.preventDefault();
-  const email = this.signUpForm['signup-email'].value;
-  const password = this.signUpForm["signup-password"].value;
-  console.log(this.auth);
-  // sign-up 
-  this.auth.createUserWithEmailAndPassword(email,password)
-  .then( credential => {
-    const sigupModal = document.getElementById("modal-signup");
-    M.Modal.getInstance(sigupModal).close();
-    this.signUpForm.reset();
-  })
-  .catch(error=>{
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    alert(`
-        Opps!!
-        ErrorCode: ${errorCode}
-        ErrorMessage: ${errorMessage}
-    `)
-  })
+  
 }
-/** Login with google */
+
+
+/** Login with google
+ * step1: create new provider
+ * step2: login with provider
+ * step3: close login form
+ */
 function logInWithGoogle(){
-  let provider = new firebase.auth.GoogleAuthProvider();
-  this.auth.signInWithPopup(provider);
-  const sigupModal = document.getElementById("modal-login");
-  M.Modal.getInstance(sigupModal).close();
+  
 }
 
 
 /**Login function
  * @param: window event
+ * step1: get email and input form login form
+ * step2: sign-in with email and password
+ * step3: if success close login form and clear input
+ * 
   */
 function signIn(event){
-    event.preventDefault();
-    // Get input email and password
-    const email = this.signInForm["login-email"].value;
-    const password = this.signInForm["login-password"].value;
-    // sign-in
-    this
-      .auth
-      .signInWithEmailAndPassword(email, password)
-      .then( (credential) => {
-        // Signed in
-         var user = credential.user;
-         const sigupModal = document.getElementById("modal-login");
-         M.Modal.getInstance(sigupModal).close();
-         this.signUpForm.reset();
-      })
-      .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        alert(`
-        Opps!!
-        ErrorCode: ${errorCode}
-        ErrorMessage: ${errorMessage}
-    `);
-      });
+   
 }
 
 
 /** Logout
+ * Logt-out and redirect to page
  */
 function logOut (){
-    this.auth.signOut()
-    .then(()=>{
-        
-    })
-     .catch(error=>{
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    alert(`
-        Opps!!
-        ErrorCode: ${errorCode}
-        ErrorMessage: ${errorMessage}
-    `)
-  })
+   
 }
 
 
 /** Tracking Auth status
  * @param: callback
+ * check user login or not 
+ * if login: set navbar and content with current user then load message
+ * not: set navbarr and content with null
  */
 
   function onAuthStateChanged (user) {
    if(user){
       setNavbar(user);
       setContent(user);
-     this.loadMessage();
+      this.loadMessage();
    }else{
       setNavbar();
       setContent();
@@ -104,7 +64,6 @@ function logOut (){
 /** Give permission for send message */
 function checkSignedIn(){
   if(this.auth.currentUser){
-    console.log("true")
     return true;
   }
   let notice = `You must login first`;
