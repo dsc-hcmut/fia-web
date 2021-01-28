@@ -16,4 +16,10 @@ export const CHAT_TEMPLATE = `<div class="chat">
         </div>
     </div>`;
 
-export const LOADING_IMAGE = `/img/loading.gif `
+export const LOADING_IMAGE = `/img/loading.gif `;
+export const PROFILE_TEMPLATE = `
+ <a href="#" class="grey-text modal-trigger" data-target="modal-account">
+    <img src="imgSrc" class="circle avatar" alt="avatar">
+    <p>name</p>
+</a>
+`;

@@ -20,8 +20,11 @@
       </a>
      
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li class="logged-in" style = "display: none;">
-            <a href="#" class="grey-text modal-trigger" data-target="modal-account">Account</a>
+           <li id="profile" class="logged-in" style = "display: none;">
+            <a href="#" class="grey-text modal-trigger" data-target="modal-account">
+              <img src="https://www.pixinvent.com/materialize-material-design-admin-template/laravel/demo-4/images/user/7.jpg" class="circle" alt="avatar">
+              <p>Acount</p>
+            </a>
           </li>
           <li class="logged-in" style = "display: none;">
             <a href="#" class="grey-text" id="logout">Logout</a>
@@ -88,20 +91,9 @@
   <!--Intro Screen-->
     <div class="intro-container" id="welcome-screen-wrapper" style="display: none;">
       <div class= "logo">
-        <div class ="logo-left">
-          <span class=" bar bar-white bar-left-top">
-          </span>
-          <span class=" bar bar-white bar-left-bottom">
-        </span>
-        </div>
-        <div class ="logo-right">
-           <span class=" bar bar-white bar-right-top">
-          </span>
-          <span class=" bar bar-white bar-right-bottom">
-          </span>
-        </div>
+        <img id="firebase_logo" class="logo" src="img/fb_logo.png">
       </div>
-      <div class="DSC-text">Developer Student Clubs</div>
+      <div class="DSC-text">Firebase in Action</div>
       <div class="DSC-chapter">HCMC University of Technology</div>
     </div>
   <!--End Intro screen-->

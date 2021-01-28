@@ -5,7 +5,25 @@ import {
   CHAT_AREA,
   CHAT_TEMPLATE,
   LOADING_IMAGE,
+  PROFILE_TEMPLATE,
 } from "./const.js";
+/** Set-up profile 
+ * @param  user 
+ */
+
+ function setupProfile(user){
+    const profile = document.getElementById("profile");
+    if(user){
+      let userName = user.displayName || user.email.split("@")[0];
+      let userProfileURL = user.photoURL || "/img/profile_placeholder.png";
+      profile.innerHTML = PROFILE_TEMPLATE.replace(/name|imgSrc/gi, (x) => {
+        if (x === "name") return (x = userName);
+        if (x === "imgSrc") return (x = userProfileURL);
+      });
+    }else{
+      profile.style.display = "none";
+    }
+ }
 
 
 /** Set up navbar
@@ -14,9 +32,11 @@ import {
 
  function setNavbar(user){
      if(user){
+         setupProfile(user);
         loggedInLinks.forEach( link => link.style.display = "block");
         loggedOutLinks.forEach((link) => (link.style.display = "none"));
      }else{
+         setupProfile();
         loggedInLinks.forEach((link) => (link.style.display = "none"));
         loggedOutLinks.forEach((link) => (link.style.display = "block"));
      }

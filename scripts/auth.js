@@ -98,7 +98,6 @@ function logOut (){
    }else{
       setNavbar();
       setContent();
-      console.log("Not login yet!!");
    }
  }
 
