@@ -39,7 +39,42 @@ import {LOADING_IMAGE} from "./const.js";
   * 
  */
 function uploadImage(event){
+  let file = event.target.files[0];
+  this.uploadImageForm.reset();
+  if( !file.type.match("image.*")){
+    alert(`You can only shared image`)
+    return
+  }
+  if( checkSignedIn.bind(this)()){
+    let user = this.auth.currentUser;
+    let meta = {
+      contentType:file.type
+    }
+    let message = {
+      userId: user.uid,
+      userName: user.displayName || user.email.split("@")[0],
+      photoUrl: user.photoURL || "img/profile_placeholder",
+      imgUrl:LOADING_IMAGE
+    };
 
+    this.messagesRef.push(message)
+      .then( messSnapshot =>{
+         let ref = `${user.uid}/${Date.now()}/${file.name}`;
+         this.storageRef.child(ref).put(file,meta)
+          .then( imgSnapshot =>{
+            let path = imgSnapshot.metadata.fullPath;
+            messSnapshot.update({
+              imgUrl: this.storage.ref(path).toString()
+            })
+          })
+          .catch(err=>{
+            alert(`${err.message}`)
+          })
+      })
+      .catch(err=>{
+        alert(`${err.message}`)
+      })
+  }
 }
 
 

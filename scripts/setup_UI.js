@@ -90,6 +90,15 @@ function displayMessage(
    let messageContent = messItem.querySelector('.content');
    if(message){
       messageContent.innerHTML=`<p>${message}</p>`
+   }else if(messAsImage){
+      let img =document.createElement("img");
+      img.addEventListener("load",()=>{
+        this.messageArea.scrollTop = this.messageArea.scrollHeight;
+      })
+      this.setImageAsMessage(messAsImage, img);
+      messageContent.classList.remove("chat-text");
+      messageContent.innerHTML="";
+      messageContent.append(img);   
    }
    setTimeout(function(){
       messItem.classList.add("visible");
@@ -127,7 +136,18 @@ function loadMessage(){
  * step3: if not URI then set src of imgElement as received URI
  */
 function setImageAsMessage (imgURI, imgElement){
-   
+   if(imgURI.startsWith('gs://')){
+      imgElement.src = LOADING_IMAGE;
+      this.storage.refFromURL(imgURI).getDownloadURL()
+      .then(url =>{
+         imgElement.src = url;
+      })
+      .catch(err=>{
+         alert(`${err.message}`)
+      })
+   }else{
+      imgElement.src = imgURI
+   }
 }
 
 export {
