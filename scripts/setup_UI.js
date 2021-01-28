@@ -55,45 +55,52 @@ import {
  }
 
 /** Display message to container */
-function displayMessage(key ,userId, userName, message, userAvaUrl, messAsImage){
-   let messageElement = document.getElementById(key);
-   if( !messageElement ){
-      let container = document.createElement("div");
-      container.innerHTML = CHAT_TEMPLATE;
-      if (userId === this.auth.currentUser.uid) {
-        container.firstChild.classList.add("chat-right");
-      }
-      messageElement = container.firstChild;
-      messageElement.setAttribute("id", key);
-      this.messageList.appendChild(messageElement);
-   }
-   //Set up profile
-   let name = messageElement.querySelector(".name");
-   let messageContent = messageElement.querySelector(".content");
-   let avatar = messageElement.querySelector(".circle");
-   name.innerHTML = userName;
-   avatar.setAttribute('src',userAvaUrl);
-   if(message){
-      // let content = document.createElement("p");
-      // content.innerHTML = message ;
-      messageContent.innerHTML=`<p>
+function displayMessage(
+  key,
+  userId,
+  userName,
+  message,
+  userAvaUrl = "/img/profile_placeholder.png",
+  messAsImage
+) {
+  let messageElement = document.getElementById(key);
+  if (!messageElement) {
+    let container = document.createElement("div");
+    container.innerHTML = CHAT_TEMPLATE;
+    if (userId === this.auth.currentUser.uid) {
+      container.firstChild.classList.add("chat-right");
+    }
+    messageElement = container.firstChild;
+    messageElement.setAttribute("id", key);
+    this.messageList.appendChild(messageElement);
+  }
+  //Set up profile
+  let name = messageElement.querySelector(".name");
+  let messageContent = messageElement.querySelector(".content");
+  let avatar = messageElement.querySelector(".circle");
+  name.innerHTML = userName;
+  avatar.setAttribute("src", userAvaUrl);
+  if (message) {
+    // let content = document.createElement("p");
+    // content.innerHTML = message ;
+    messageContent.innerHTML = `<p>
          ${message}
       </p>`;
-   }else if(messAsImage){
-      let img = document.createElement("img");
-      img.addEventListener("load",()=>{
-         this.messageArea.scrollTop = this.messageArea.scrollHeight;
-      })
-      this.setImageAsMessage(messAsImage,img);
-      messageContent.classList.remove("chat-text");
-      messageContent.innerHTML="";
-      messageContent.append(img);
-   }
-   setTimeout(function () {
-     messageElement.classList.add("visible");
-   }, 1);
-   this.messageArea.scrollTop = this.messageArea.scrollHeight;
-   this.messageInputBox.focus();
+  } else if (messAsImage) {
+    let img = document.createElement("img");
+    img.addEventListener("load", () => {
+      this.messageArea.scrollTop = this.messageArea.scrollHeight;
+    });
+    this.setImageAsMessage(messAsImage, img);
+    messageContent.classList.remove("chat-text");
+    messageContent.innerHTML = "";
+    messageContent.append(img);
+  }
+  setTimeout(function () {
+    messageElement.classList.add("visible");
+  }, 1);
+  this.messageArea.scrollTop = this.messageArea.scrollHeight;
+  this.messageInputBox.focus();
 }
 
 /** Load messages to DOM */
