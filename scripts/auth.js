@@ -4,12 +4,26 @@ import { setNavbar, setContent, loadMessage } from "./setup_UI.js";
 /** Sign up new account 
  * @param: window event
  * step1: get input of email and password
- * step2: createUserWithEmailAnhPassword to create new user
+ * step2: createUserWithEmailAndPassword to create new user
  * if succcess close sign up form and reset input field
 */
 
 function signUp (event){
-  
+  event.preventDefault();
+  const email = this.signUpForm["signup-email"].value;
+  const password =  this.signUpForm['signup-password'].value;
+  this.auth.createUserWithEmailAndPassword(email,password)
+  .then( credential =>{
+    const sigUpModal = document.getElementById("modal-signup");
+    M.Modal.getInstance(sigUpModal).close();
+    this.signUpForm.reset();
+  })
+  .catch( er =>{
+    alert(`
+      Message : ${er.message}
+      ErrorCode :${er.code}
+    `)
+  })
 }
 
 
@@ -19,7 +33,10 @@ function signUp (event){
  * step3: close login form
  */
 function logInWithGoogle(){
-  
+  const signInModal = document.getElementById("modal-login")
+  const provider = new firebase.auth.GoogleAuthProvider();
+  this.auth.signInWithPopup(provider);
+  M.Modal.getInstance(signInModal).close();
 }
 
 
@@ -31,7 +48,22 @@ function logInWithGoogle(){
  * 
   */
 function signIn(event){
-   
+   event.preventDefault();
+   const email = this.signInForm['login-email'].value;
+   const password = this.signInForm["login-password"].value;
+   this.auth
+     .signInWithEmailAndPassword(email, password)
+     .then((credential) => {
+       const signInModal = document.getElementById("modal-login");
+       M.Modal.getInstance(signInModal).close();
+       this.signInForm.reset();
+     })
+     .catch((er) => {
+       alert(`
+      Message : ${er.message}
+      ErrorCode :${er.code}
+    `);
+     });
 }
 
 
@@ -39,7 +71,10 @@ function signIn(event){
  * Logt-out and redirect to page
  */
 function logOut (){
-   
+   this.auth.signOut()
+   .then(()=>{
+     location.href = '/';
+   })
 }
 
 
