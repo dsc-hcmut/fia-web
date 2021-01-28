@@ -70,7 +70,30 @@ function displayMessage(
   userAvaUrl = "/img/profile_placeholder.png",
   messAsImage
 ) {
-
+   let messItem = document.getElementById(key);
+   if(!messItem){
+      let div = document.createElement('div');
+      div.innerHTML=CHAT_TEMPLATE;
+      if(userId === this.auth.currentUser){
+         div.firstChild.classList.add("chat-right");
+      }
+      messItem = div.firstChild;
+      messItem.setAttribute('id',key);
+      this.messageList.appendChild(messItem);
+   }
+   let name = messItem.querySelector('.name');
+   name.innerHTML = userName;
+   let userAvatar = messItem.querySelector('.circle');
+   userAvatar.setAttribute('src',userAvaUrl);
+   let messageContent = messItem.querySelector('.content');
+   if(message){
+      messageContent.innerHTML=`<p>${message}</p>`
+   }
+   setTimeout(function(){
+      messItem.classList.add("visible");
+   },1000)
+   this.messageArea.scrollTop = this.messageArea.scrollHeight;
+   this.messageInputBox.focus();
 }
 
 /** Load messages to DOM 
@@ -78,7 +101,20 @@ function displayMessage(
  *  step2: get message from db on event chanaged and add
 */
 function loadMessage(){
-   
+   this.messagesRef.off();
+   let setMessage = (data)=>{
+      let val = data.val();
+      this.displayMessage(
+         data.key,
+         val.useId,
+         val.userName,
+         val.message,
+         val.photoUrl,
+         val.imgUrl,
+      )
+   }
+   this.messagesRef.limitToLast(20).on("child_changed",setMessage);
+   this.messagesRef.limitToLast(20).on("child_added",setMessage);
 }
 
 /**Set image as message in message list

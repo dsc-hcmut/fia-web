@@ -9,7 +9,24 @@ import {LOADING_IMAGE} from "./const.js";
  */
 
  function saveMessage(event){
-     
+   event.preventDefault();
+   let messageContent = this.messageInputBox.value;
+   if(messageContent && checkSignedIn.bind(this)()){
+     let user = this.auth.currentUser;
+     let message = {
+       userId:user.uid,
+       userName:user.displayName || user.email.split("@")[0],
+       photoUrl:user.photoURL || 'img/profile_placeholder',
+       message:messageContent
+     }
+     this.messagesRef.push(message)
+      .then(snapshot=>{
+        this.messageForm.reset()
+      })
+      .catch(er=>{
+        alert(`Can't send message!`)
+      })
+   }
  }
 
  /** Upload image to clound storage and update realtime db 
