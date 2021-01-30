@@ -74,7 +74,7 @@ function displayMessage(
    if(!messItem){
       let div = document.createElement('div');
       div.innerHTML=CHAT_TEMPLATE;
-      if(userId === this.auth.currentUser){
+      if(userId === this.auth.currentUser.uid){
          div.firstChild.classList.add("chat-right");
       }
       messItem = div.firstChild;
