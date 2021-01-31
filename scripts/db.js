@@ -7,7 +7,7 @@ import {LOADING_IMAGE} from "./const.js";
  function saveMessage(event){
      event.preventDefault();
      const message = this.messageInputBox.value;
-     if (message && checkSignedIn.bind(this)()) {
+     if ( message && checkSignedIn.bind(this)() ) {
        let currentUser = this.auth.currentUser;
        this.messagesRef
          .push({
@@ -59,7 +59,7 @@ function uploadImage(event){
       this.storageRef.child(`${currentUser.uid}/${Date.now()}/${file.name}`)
       .put(file,metadata)
       .then( ( imgSnapshot ) =>{
-        console.log(imgSnapshot.metadata)
+        
         let filePath = imgSnapshot.metadata.fullPath;
         messageSnapshot.update({
           imageUrl:this.storage.ref(filePath).toString()

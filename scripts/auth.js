@@ -27,6 +27,7 @@ function signUp (event){
     `)
   })
 }
+
 /** Login with google */
 function logInWithGoogle(){
   let provider = new firebase.auth.GoogleAuthProvider();
@@ -38,7 +39,7 @@ function logInWithGoogle(){
 
 /**Login function
  * @param: window event
-  */
+ */
 function signIn(event){
     event.preventDefault();
     // Get input email and password
@@ -51,6 +52,7 @@ function signIn(event){
       .then( (credential) => {
         // Signed in
          var user = credential.user;
+         console.log(credential)
          const sigupModal = document.getElementById("modal-login");
          M.Modal.getInstance(sigupModal).close();
          this.signUpForm.reset();
@@ -62,7 +64,7 @@ function signIn(event){
         Opps!!
         ErrorCode: ${errorCode}
         ErrorMessage: ${errorMessage}
-    `);
+        `);
       });
 }
 
